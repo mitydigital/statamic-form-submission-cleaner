@@ -1,0 +1,26 @@
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: name
+            field:
+              type: text
+              display: Name
+              localizable: false
+          -
+            handle: assets
+            field:
+              container: assets
+              type: assets
+              display: Assets
+              localizable: false
+          -
+            handle: another_assets
+            field:
+              container: assets
+              type: assets
+              display: 'Another Assets'
+              localizable: false

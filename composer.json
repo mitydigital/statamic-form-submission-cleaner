@@ -1,0 +1,62 @@
+{
+    "name": "mitydigital/statamic-form-submission-cleaner",
+    "description": "A command to help automate the clean up and removal of old form submissions.",
+    "type": "statamic-addon",
+    "keywords": [
+        "statamic",
+        "form"
+    ],
+    "autoload": {
+        "psr-4": {
+            "MityDigital\\StatamicFormSubmissionCleaner\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MityDigital\\StatamicFormSubmissionCleaner\\Tests\\": "tests"
+        }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marty Friedel"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "statamic/cms": "^5.0"
+    },
+    "extra": {
+        "statamic": {
+            "name": "Form Submission Cleaner for Statamic",
+            "description": "A command to help automate the clean up and removal of old form submissions."
+        },
+        "laravel": {
+            "providers": [
+                "MityDigital\\StatamicFormSubmissionCleaner\\ServiceProvider"
+            ]
+        }
+    },
+    "require-dev": {
+        "pestphp/pest": "^2.9",
+        "orchestra/testbench": "^8.5",
+        "laravel/pint": "^1.10",
+        "spatie/pest-plugin-test-time": "^2.0",
+        "pestphp/pest-plugin-laravel": "^2.1",
+        "spatie/x-ray": "^1.1"
+    },
+    "scripts": {
+        "pint": [
+            "./vendor/bin/pint"
+        ],
+        "test": [
+            "php -d memory_limit=-1 -d max_execution_time=0 ./vendor/bin/pest"
+        ]
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "pixelfear/composer-dist-plugin": true
+        }
+    }
+}
