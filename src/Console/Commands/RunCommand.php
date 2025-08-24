@@ -17,7 +17,7 @@ class RunCommand extends Command
     public function handle(): void
     {
         $this->info(__('statamic-form-submission-cleaner::command.starting'));
-        
+
         $cleaned = FormSubmissionCleaner::cleanup();
 
         $this->info(__('statamic-form-submission-cleaner::command.completed', [
