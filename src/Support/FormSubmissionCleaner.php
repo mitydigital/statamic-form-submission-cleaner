@@ -111,7 +111,7 @@ class FormSubmissionCleaner
                     if ($assets = $submission->get($field->handle())) {
                         Asset::query()
                             ->where('container', $field->config()['container'])
-                            ->whereIn('path', $assets)
+                            ->whereIn('path', Arr::wrap($assets))
                             ->get()
                             ->each(fn (\Statamic\Assets\Asset $asset) => $asset->delete());
                     }
