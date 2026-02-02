@@ -671,7 +671,6 @@ it('can delete multiple assets', function () {
 
     $asset2 = $assetContainer->makeAsset($file->getFilename())->upload($file);
 
-
     // make the form
     $form = Form::make('form_with_assets')
         ->title('Form With Assets');
@@ -700,14 +699,10 @@ it('can delete multiple assets', function () {
 
 class TestScope extends Scope
 {
-    public function apply($query, $params)
-    {
-    }
+    public function apply($query, $params) {}
 }
 
 class AnotherTestScope extends Scope
 {
-    public function apply($query, $params)
-    {
-    }
+    public function apply($query, $params) {}
 }

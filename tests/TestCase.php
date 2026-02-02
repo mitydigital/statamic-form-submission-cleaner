@@ -28,13 +28,13 @@ abstract class TestCase extends AddonTestCase
         foreach ($configs as $config) {
             $app['config']->set(
                 "statamic.$config",
-                require(__DIR__."/../vendor/statamic/cms/config/{$config}.php")
+                require (__DIR__."/../vendor/statamic/cms/config/{$config}.php")
             );
         }
 
         $app['config']->set('app.key', 'base64:'.base64_encode(
-                Encrypter::generateKey($app['config']['app.cipher'])
-            )
+            Encrypter::generateKey($app['config']['app.cipher'])
+        )
         );
 
         $app['config']->set('filesystems.disks.assets', [
