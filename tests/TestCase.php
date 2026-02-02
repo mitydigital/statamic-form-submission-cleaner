@@ -15,44 +15,6 @@ abstract class TestCase extends AddonTestCase
 
     protected string $addonServiceProvider = ServiceProvider::class;
 
-    /*protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->withoutVite();
-
-        if ($this->shouldFakeVersion) {
-            Version::shouldReceive('get')
-                ->andReturn(Composer::create(__DIR__.'/../')->installedVersion(Statamic::PACKAGE));
-        }
-    }*/
-
-    /*protected function getPackageProviders($app)
-    {
-        return [
-            StatamicServiceProvider::class,
-            ServiceProvider::class,
-        ];
-    }
-
-    protected function getPackageAliases($app)
-    {
-        return [
-            'Statamic' => Statamic::class,
-        ];
-    }*/
-
-    /*protected function getEnvironmentSetUp($app)
-    {
-        parent::getEnvironmentSetUp($app);
-        $app->make(Manifest::class)->manifest = [
-            'mitydigital/statamic-form-submission-cleaner' => [
-                'id' => 'mitydigital/statamic-form-submission-cleaner',
-                'namespace' => 'MityDigital\\StatamicFormSubmissionCleaner',
-            ],
-        ];
-    }*/
-
     protected function resolveApplicationConfiguration($app)
     {
         parent::resolveApplicationConfiguration($app);
@@ -66,13 +28,13 @@ abstract class TestCase extends AddonTestCase
         foreach ($configs as $config) {
             $app['config']->set(
                 "statamic.$config",
-                require (__DIR__."/../vendor/statamic/cms/config/{$config}.php")
+                require(__DIR__."/../vendor/statamic/cms/config/{$config}.php")
             );
         }
 
         $app['config']->set('app.key', 'base64:'.base64_encode(
-            Encrypter::generateKey($app['config']['app.cipher'])
-        )
+                Encrypter::generateKey($app['config']['app.cipher'])
+            )
         );
 
         $app['config']->set('filesystems.disks.assets', [

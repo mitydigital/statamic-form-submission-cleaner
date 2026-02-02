@@ -586,12 +586,128 @@ it('correctly preserves the submission when delete_submissions true', function (
     expect($form->submission($submission->id()))->toBeInstanceOf(Submission::class);
 });
 
+it('can delete a single asset', function () {
+    // setup
+    // supporting components
+    $assetContainer = (new AssetContainer)
+        ->title('Test Container')
+        ->handle('assets')
+        ->disk('assets')
+        ->save();
+
+    $tmpFile = tempnam(sys_get_temp_dir(), 'test_asset.png');
+    copy(__DIR__.'/../__fixtures__/assets/mity.png', $tmpFile);
+
+    $file = new UploadedFile(
+        $tmpFile,
+        'mity.png',
+        'image/jpeg',
+        null,
+        true
+    );
+
+    $asset = $assetContainer->makeAsset($file->getFilename())->upload($file);
+
+    $assetId = $asset->id();
+    expect($asset->exists())->toBe(true);
+
+    // make the form
+    $form = Form::make('form_with_assets')
+        ->title('Form With Assets');
+    $form->save();
+
+    $submission = $form->makeSubmission()
+        ->data([
+            'name' => 'Name',
+            'assets' => $asset->title,
+        ]);
+    $submission->save();
+
+    $config = $this->support->getFormConfig()['form_with_assets'];
+
+    expect($asset->exists())->toBe(true);
+
+    callProtectedMethod($this->support, 'cleanupSubmission', [
+        'submission' => $submission,
+        'config' => $config,
+    ]);
+
+    expect($asset->exists())->toBe(false);
+});
+
+it('can delete multiple assets', function () {
+    // setup
+    // supporting components
+    $assetContainer = (new AssetContainer)
+        ->title('Test Container')
+        ->handle('assets')
+        ->disk('assets')
+        ->save();
+
+    $tmpFile = tempnam(sys_get_temp_dir(), 'test_asset.png');
+    copy(__DIR__.'/../__fixtures__/assets/mity.png', $tmpFile);
+
+    $file = new UploadedFile(
+        $tmpFile,
+        'mity.png',
+        'image/jpeg',
+        null,
+        true
+    );
+
+    $asset = $assetContainer->makeAsset($file->getFilename())->upload($file);
+
+    // make a second
+    $tmpFile = tempnam(sys_get_temp_dir(), 'test_asset.png');
+    copy(__DIR__.'/../__fixtures__/assets/mity.png', $tmpFile);
+
+    $file = new UploadedFile(
+        $tmpFile,
+        'mity.png',
+        'image/jpeg',
+        null,
+        true
+    );
+
+    $asset2 = $assetContainer->makeAsset($file->getFilename())->upload($file);
+
+
+    // make the form
+    $form = Form::make('form_with_assets')
+        ->title('Form With Assets');
+    $form->save();
+
+    $submission = $form->makeSubmission()
+        ->data([
+            'name' => 'Name',
+            'assets' => [$asset->title, $asset2->title],
+        ]);
+    $submission->save();
+
+    $config = $this->support->getFormConfig()['form_with_assets'];
+
+    expect($asset->exists())->toBe(true)
+        ->and($asset2->exists())->toBe(true);
+
+    callProtectedMethod($this->support, 'cleanupSubmission', [
+        'submission' => $submission,
+        'config' => $config,
+    ]);
+
+    expect($asset->exists())->toBe(false);
+    expect($asset2->exists())->toBe(false);
+});
+
 class TestScope extends Scope
 {
-    public function apply($query, $params) {}
+    public function apply($query, $params)
+    {
+    }
 }
 
 class AnotherTestScope extends Scope
 {
-    public function apply($query, $params) {}
+    public function apply($query, $params)
+    {
+    }
 }
